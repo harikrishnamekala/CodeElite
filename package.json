@@ -4,7 +4,7 @@
   "description": "Competitive Programming App For VIT",
   "main": "app.js",
   "scripts": {
-    "test": "Python,C++,C#,Java,Scala,C,JavaScript"
+    "test": "app.js"
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/harkrishnamekala/CodeElite/issues"
   },
-  "homepage": "https://github.com/harkrishnamekala/CodeElite#readme"
+  "homepage": "https://github.com/harkrishnamekala/CodeElite#readme",
+  "dependencies": {
+    "monaco-editor": "^0.8.3"
+  }
 }

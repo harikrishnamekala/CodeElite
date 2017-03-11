@@ -22,6 +22,8 @@
   },
   "homepage": "https://github.com/harkrishnamekala/CodeElite#readme",
   "dependencies": {
-    "monaco-editor": "^0.8.3"
+    "ember": "^1.0.2",
+    "monaco-editor": "^0.8.3",
+    "mongodb": "^2.2.24"
   }
 }

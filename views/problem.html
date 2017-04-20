@@ -4,6 +4,8 @@
         <title></title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+
+    <!-- Added the JQuery and Boostrap as CDN-->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
@@ -12,7 +14,7 @@
 <link rel="stylesheet" data-name="vs/editor/editor.main" href="../node_modules/monaco-editor/min/vs/editor/editor.main.css">
     </head>
     <body>
-
+<!--Naviagation Bar -->
     <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -43,7 +45,7 @@
     </form>
   </div>
 </nav>
-
+<!-- Jumbotron Bootstrap Body for the Problem Statement-->
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
     <h1 class="display-3">Hello World!! Program</h1>
@@ -69,8 +71,12 @@
     <p class="lead">1 </p>
   </div>
 </div>
+<!-- A container to place the Code Editor-->
 <div id="container" style="width:1200px;height:600px;border:1px solid grey;padding:auto;margin:auto;display:block"></div>
 
+
+
+<!-- Creating Object for monaco-editor and embbeding it to the above container-->
 <script>var require = { paths: { 'vs': '../node_modules/monaco-editor/min/vs' } };</script>
 <script src="../node_modules/monaco-editor/min/vs/loader.js"></script>
 <script src="../node_modules/monaco-editor/min/vs/editor/editor.main.nls.js"></script>

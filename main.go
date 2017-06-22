@@ -71,7 +71,6 @@ func executecode(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	if err := cli.ContainerExecStart(ctx, executable_id, types.ExecStartCheck{}); err != nil {
 		panic(err)
 	}
-
 	exect_id, err := cli.ContainerExecCreate(ctx, response.ID, types.ExecConfig{
 		Cmd: []string{"./main"},
 	})

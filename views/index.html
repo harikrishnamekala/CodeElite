@@ -78,7 +78,7 @@
 
 <button type="button" style="margin-left:350px" class="btn btn-primary btn-lg" onclick="sendCode()">Submit</button>
 
-<p id="codist"><pre><code></code></pre></p>
+<p id="codist"></p>
 
 
 <!-- Creating Object for monaco-editor and embbeding it to the above container-->
@@ -108,7 +108,7 @@
                 document.getElementById('codist').innerHTML = this.responseText;
             }
         };
-        req.open("GET","/execute/" + code, true );
+        req.open("GET","http://localhost:8080/execute/" + code, true );
         req.send();
         return 1;
 

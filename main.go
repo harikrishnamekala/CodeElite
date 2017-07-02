@@ -2,15 +2,11 @@ package main
 
 //Importing Standard Packages
 import (
-	"bytes"
-	"context"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 
-	"github.com/docker/docker/api/types"
-	"github.com/docker/docker/api/types/container"
-	"github.com/docker/docker/client"
+	"codeelite.com/controller"
 	"github.com/julienschmidt/httprouter"
 )
 
@@ -31,57 +27,17 @@ func main() {
 }*/
 func executecode(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	code := []byte(ps.ByName("code"))
-	err := ioutil.WriteFile("main.c", code, 777)
+	err := ioutil.WriteFile("./controller/vol/main.c", code, 0777)
 	if err != nil {
 		panic(err)
 	}
-	ctx := context.Background()
-	cli, err := client.NewEnvClient()
-	if err != nil {
-		panic(err)
-	}
-
-	//var options types.CopyToContainerOptions
-
-	response, err := cli.ContainerCreate(ctx, &container.Config{
-		Image: "compiler",
-	}, nil, nil, "")
+	go runner.RunCode()
+	output, err := ioutil.ReadFile("./controller/vol/data.txt")
 
 	if err != nil {
 		panic(err)
 	}
-
-	if err := cli.ContainerStart(ctx, response.ID, types.ContainerStartOptions{}); err != nil {
-		panic(err)
-	}
-
-	content := bytes.NewReader(code)
-	if err := cli.CopyToContainer(ctx, response.ID, "/main.c", content, types.CopyToContainerOptions{}); err != nil {
-		panic(err)
-	}
-
-	exec_id, err := cli.ContainerExecCreate(ctx, response.ID, types.ExecConfig{
-		Cmd: []string{"gcc", "/main.c -o main"},
-	})
-	Use(exec_id)
-	if err != nil {
-		panic(err)
-	}
-	executable_id := "1"
-	if err := cli.ContainerExecStart(ctx, executable_id, types.ExecStartCheck{}); err != nil {
-		panic(err)
-	}
-	exect_id, err := cli.ContainerExecCreate(ctx, response.ID, types.ExecConfig{
-		Cmd: []string{"./main"},
-	})
-	Use(exect_id)
-	if err != nil {
-		panic(err)
-	}
-	if err := cli.ContainerExecStart(ctx, executable_id, types.ExecStartCheck{}); err != nil {
-		panic(err)
-	}
-
+	fmt.Fprintf(w, "%s", string(output))
 	//fmt.Fprintf(w, "%s", ps.ByName("code"))
 }
 func showIndex(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -90,25 +46,5 @@ func showIndex(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		panic(err)
 	}
 	fmt.Fprintf(w, "%s", static_html)
-}
-func StopAllContainers() {
-	ctx := context.Background()
-	cli, err := client.NewEnvClient()
-	if err != nil {
-		panic(err)
-	}
-
-	containers, err := cli.ContainerList(ctx, types.ContainerListOptions{})
-	if err != nil {
-		panic(err)
-	}
-
-	for _, container := range containers {
-		if err := cli.ContainerStop(ctx, container.ID, nil); err != nil {
-			panic(err)
-		}
-	}
-}
-func Use(something types.IDResponse) {
 
 }

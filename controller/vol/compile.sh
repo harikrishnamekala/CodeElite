@@ -1,0 +1,1 @@
+main > /vol/data.txt

@@ -1,12 +1,18 @@
+/*
+*Author :Umashankar(RacyRastus)
+*Vishnu Institute of Technology
+*Super Senior Detained Person wrote this code you Dayalatippa
+ */
 package main
 
 //Importing Standard Packages
 import (
 	"fmt"
+	"html/template"
 	"io/ioutil"
 	"net/http"
+	"os"
 
-	"codeelite.com/controller"
 	"github.com/julienschmidt/httprouter"
 )
 
@@ -31,20 +37,23 @@ func executecode(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	if err != nil {
 		panic(err)
 	}
-	go runner.RunCode()
-	output, err := ioutil.ReadFile("./controller/vol/data.txt")
+	fmt.Print(code)
+	//runner.Runcode()
+	//output, err := ioutil.ReadFile("./controller/vol/data.txt")]
 
 	if err != nil {
 		panic(err)
 	}
-	fmt.Fprintf(w, "%s", string(output))
-	//fmt.Fprintf(w, "%s", ps.ByName("code"))
+	fmt.Fprintf(w, "%s", string(code))
+	fmt.Fprintf(w, "%s", ps.ByName("code"))
 }
 func showIndex(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	static_html, err := ioutil.ReadFile("views/index.html")
+	templ, err := template.New("IndexPage").ParseFiles("views/index.html")
+	//static_html, err := ioutil.ReadFile("views/index.html")
 	if err != nil {
 		panic(err)
 	}
-	fmt.Fprintf(w, "%s", static_html)
+	err = templ.Execute(os.Stdout, nil)
+	//fmt.Fprintf(w, "%s", static_html)
 
 }

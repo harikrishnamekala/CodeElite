@@ -1,8 +1,3 @@
-/*
-*Author :Umashankar(RacyRastus)
-*Vishnu Institute of Technology
-*Super Senior Detained Person wrote this code you Dayalatippa
- */
 package main
 
 //Importing Standard Packages

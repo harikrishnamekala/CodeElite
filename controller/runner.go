@@ -11,7 +11,7 @@ import (
 	"golang.org/x/net/context"
 )
 
-func RunCode() {
+func Runcode() {
 	ctx := context.Background()
 	cli, err := client.NewEnvClient()
 	if err != nil {

@@ -6,7 +6,8 @@ import (
 	"html/template"
 	"io/ioutil"
 	"net/http"
-	"os"
+
+	"codeelite.com/controller"
 
 	"github.com/julienschmidt/httprouter"
 )
@@ -17,7 +18,7 @@ func main() {
 	router := httprouter.New()
 	router.GET("/", showIndex)
 	//router.GET("/", http.FileServer(http.Dir(".")))
-	router.GET("/execute/:code", executecode)
+	//router.ServeFiles("./node_modules", http.Dir("./node_modules"))
 	//http.HandleFunc("/execute", executecode)
 	http.ListenAndServe(":8080", router)
 
@@ -33,7 +34,8 @@ func executecode(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		panic(err)
 	}
 	fmt.Print(code)
-	//runner.Runcode()
+
+	runner.Runcode()
 	//output, err := ioutil.ReadFile("./controller/vol/data.txt")]
 
 	if err != nil {
@@ -43,12 +45,15 @@ func executecode(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	fmt.Fprintf(w, "%s", ps.ByName("code"))
 }
 func showIndex(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	templ, err := template.New("IndexPage").ParseFiles("views/index.html")
+	templ, err := template.New("showIndex").ParseFiles("views/index.html")
 	//static_html, err := ioutil.ReadFile("views/index.html")
 	if err != nil {
 		panic(err)
 	}
-	err = templ.Execute(os.Stdout, nil)
+	err = templ.Execute(w, nil)
+	if err != nil {
+		panic(err)
+	}
 	//fmt.Fprintf(w, "%s", static_html)
 
 }

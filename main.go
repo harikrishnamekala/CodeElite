@@ -45,11 +45,12 @@ func executecode(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	fmt.Fprintf(w, "%s", ps.ByName("code"))
 }
 func showIndex(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	templ, err := template.New("showIndex").ParseFiles("views/index.html")
+	templ, err := template.ParseFiles("views/index.html")
 	//static_html, err := ioutil.ReadFile("views/index.html")
 	if err != nil {
 		panic(err)
 	}
+
 	err = templ.Execute(w, nil)
 	if err != nil {
 		panic(err)

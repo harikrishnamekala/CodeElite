@@ -100,7 +100,9 @@
     //monaco.editor.setModelLanguage(editor.getModel(), "Python");
 
     function sendCode(){
-        var code = window.editor.getValue();
+        var data = window.editor.getValue();
+        var  code = {"code" : data};
+        JSON.stringify(code)
         //document.getElementById('codist').innerHTML = code;
         var req = new XMLHttpRequest();
         req.onreadystatechange = function(){
@@ -108,8 +110,9 @@
                 document.getElementById('codist').innerHTML = this.responseText;
             }
         };
-        req.open("GET","http://localhost:8080/execute/" + code, true );
+        req.open("GET","http://localhost:8080/executecode/" + code, true );
         req.send();
+        console.log(code)
         return 1;
 
     }

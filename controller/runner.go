@@ -39,13 +39,13 @@ func Runcode() {
 		panic(runit)
 	}*/
 
-	_, copyfile := exec.Command("/bin/bash", "-c", "docker cp ./vol/main.c "+resp.ID+":/vol/").Output()
+	_, copyfile := exec.Command("/bin/bash", "-c", "docker cp ./controller/vol/main.c "+resp.ID+":/vol/").Output()
 	if copyfile != nil {
 		panic(copyfile)
 	}
 	fmt.Print("Copied File to container\n")
 
-	_, copyfile2 := exec.Command("/bin/bash", "-c", "docker cp ./vol/compile.sh "+resp.ID+":/vol/").Output()
+	_, copyfile2 := exec.Command("/bin/bash", "-c", "docker cp ./controller/vol/compile.sh "+resp.ID+":/vol/").Output()
 	if copyfile != nil {
 		panic(copyfile2)
 	}
@@ -131,7 +131,7 @@ func Runcode() {
 
 	}
 
-	_, getTheFileBack := exec.Command("/bin/bash", "-c", "docker cp "+resp.ID+":/vol/data.txt ./vol/data.txt").Output()
+	_, getTheFileBack := exec.Command("/bin/bash", "-c", "docker cp "+resp.ID+":/vol/data.txt ./controller/vol/data.txt").Output()
 	if getTheFileBack != nil {
 
 	}

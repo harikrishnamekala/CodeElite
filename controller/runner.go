@@ -11,7 +11,7 @@ import (
 	"golang.org/x/net/context"
 )
 
-func Runcode() {
+func Runcode(path string, randfolder string) {
 	ctx := context.Background()
 	cli, err := client.NewEnvClient()
 	if err != nil {
@@ -39,23 +39,29 @@ func Runcode() {
 		panic(runit)
 	}*/
 
-	_, copyfile := exec.Command("/bin/bash", "-c", "docker cp ./controller/vol/main.c "+resp.ID+":/vol/").Output()
+	_, copyfile := exec.Command("/bin/bash", "-c", "docker cp ./controller/vol/"+randfolder+"/main.c "+resp.ID+":/vol/").Output()
 	if copyfile != nil {
 		panic(copyfile)
 	}
 	fmt.Print("Copied File to container\n")
 
-	_, copyfile2 := exec.Command("/bin/bash", "-c", "docker cp ./controller/vol/compile.sh "+resp.ID+":/vol/").Output()
-	if copyfile != nil {
+	_, copyfile2 := exec.Command("/bin/bash", "-c", "docker cp ./controller/vol/"+randfolder+"/compile.sh "+resp.ID+":/vol/").Output()
+	if copyfile2 != nil {
 		panic(copyfile2)
 	}
 	fmt.Print("Copied Shell to container\n")
+	_, copyfile3 := exec.Command("/bin/bash", "-c", "docker cp ./controller/vol/"+randfolder+"/input.txt "+resp.ID+":/vol/").Output()
+	if copyfile3 != nil {
+		panic(copyfile3)
+	}
+	fmt.Print("Copied Input to container\n")
 
 	con := types.ExecConfig{
-		Cmd:          []string{"gcc", "/vol/main.c", "-o", "/vol/main"},
+		Cmd:          []string{"gcc", "/vol/main.c", "-o", "/vol/main", "2>", "/vol/errors.txt"},
 		Tty:          true,
-		AttachStdin:  false,
+		AttachStdin:  true,
 		AttachStdout: true,
+		AttachStderr: true,
 		Detach:       true,
 	}
 
@@ -89,7 +95,25 @@ func Runcode() {
 	}
 	fmt.Println("Created the File in the Container " + execID3.ID + "\n")
 
-	copyfiletoBin, err := cli.ContainerExecCreate(ctx, resp.ID, types.ExecConfig{
+	execID4, err := cli.ContainerExecCreate(ctx, resp.ID, types.ExecConfig{
+		Cmd:          []string{"touch", "/vol/errors.txt"},
+		Tty:          true,
+		AttachStdout: true,
+		AttachStdin:  false,
+		Detach:       true,
+	})
+	if err != nil {
+		panic(err)
+	}
+	err = cli.ContainerExecStart(ctx, execID4.ID, types.ExecStartCheck{
+		Tty: true,
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("Created the File in the Container " + execID4.ID + "\n")
+
+	/*copyfiletoBin, err := cli.ContainerExecCreate(ctx, resp.ID, types.ExecConfig{
 		Tty:          true,
 		Cmd:          []string{"mv", "/vol/main", "/bin/main"},
 		AttachStdin:  true,
@@ -102,12 +126,13 @@ func Runcode() {
 	err = cli.ContainerExecStart(ctx, copyfiletoBin.ID, types.ExecStartCheck{
 		Tty: true,
 	})
-	fmt.Println("Moved File to Bin Folder")
+	fmt.Println("Moved File to Bin Folder")*/
 	con2 := types.ExecConfig{
 		Cmd:          []string{"sh", "/vol/compile.sh"},
 		Tty:          true,
-		AttachStdin:  false,
-		AttachStdout: false,
+		AttachStdin:  true,
+		AttachStdout: true,
+		AttachStderr: true,
 		Detach:       true,
 	}
 	execID2, err := cli.ContainerExecCreate(ctx, resp.ID, con2)
@@ -131,10 +156,14 @@ func Runcode() {
 
 	}
 
-	_, getTheFileBack := exec.Command("/bin/bash", "-c", "docker cp "+resp.ID+":/vol/data.txt ./controller/vol/data.txt").Output()
+	_, getTheFileBack := exec.Command("/bin/bash", "-c", "docker cp "+resp.ID+":/vol/data.txt ./controller/vol/"+randfolder+"/data.txt").Output()
 	if getTheFileBack != nil {
 
 	}
+	_, getTheErrorsFileBack := exec.Command("/bin/bash", "-c", "docker cp "+resp.ID+":/vol/errors.txt ./controller/vol/"+randfolder+"/errors.txt").Output()
+	if getTheErrorsFileBack != nil {
+	}
+
 	//fmt.Printf("%T", out)
 	/*RDCloser, _, err := cli.CopyFromContainer(ctx, resp.ID, "/vol/data.txt")
 	if err != nil {

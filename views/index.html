@@ -12,6 +12,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <link rel="stylesheet" data-name="vs/editor/editor.main" href="../node_modules/monaco-editor/min/vs/editor/editor.main.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     </head>
     <body>
 <!--Naviagation Bar -->
@@ -72,13 +73,27 @@
   </div>
 </div>
 <!-- A container to place the Code Editor-->
-<div id="container" style="width:1200px;height:600px;border:1px solid grey;padding:auto;margin:auto;display:block">
-
+<div id="some" style="width:1200px;height:600px;border:1px solid grey;padding:auto;margin:auto;display:block">
+<form action="/executecode" method="POST" id="form1">
+<textarea type="text" name="scode" id="textfield" value="{{.Code}}" rows="25" cols="131"></textarea>
+<br>
+<br>
+<textarea type="text" name="scode_input" id="textfield_two"  rows="4" cols="20"></textarea>
+</form>
+<button type="submit" style="margin-left:350px" class="btn btn-primary btn-lg" form="form1" value="Submit">Submit</button>
 </div>
 
-<button type="button" style="margin-left:350px" class="btn btn-primary btn-lg" onclick="sendCode()">Submit</button>
 
-<p id="codist"></p>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<p id="codist" style="display: block;background-color: grey; font-size: 24px">{{.Output}}</p>
 
 
 <!-- Creating Object for monaco-editor and embbeding it to the above container-->
@@ -88,21 +103,24 @@
 <script src="../node_modules/monaco-editor/min/vs/editor/editor.main.js"></script>
 
 <script>
-	var editor = monaco.editor.create(document.getElementById('container'), {
+	/*var editor = monaco.editor.create(document.getElementById('container'), {
 		value: [
 			'function x() {',
 			'\tconsole.log("Hello world!");',
 			'}'
 		].join('\n'),
 		language: 'C'
-	});
+	});*/
     //monaco.editr.BuiltinTheme("vs-dark");
     //monaco.editor.setModelLanguage(editor.getModel(), "Python");
 
-    function sendCode(){
-        var data = window.editor.getValue();
-        var  code = {"code" : data};
-        JSON.stringify(code)
+   /* function sendCode(){
+        var data = document.getElementById("container2").value;
+        //window.editor.getValue();
+        var  code_obj = {
+          code : data 
+        };
+        code_source_json = JSON.stringify(code_obj);
         //document.getElementById('codist').innerHTML = code;
         var req = new XMLHttpRequest();
         req.onreadystatechange = function(){
@@ -110,13 +128,12 @@
                 document.getElementById('codist').innerHTML = this.responseText;
             }
         };
-        req.open("GET","http://localhost:8080/executecode/" + code, true );
-        req.send();
-        console.log(code)
+        req.open("POST","/executecode", true );
+        req.send(code_source_json);
         return 1;
 
     }
-
+*/
 </script>
 
     </body>

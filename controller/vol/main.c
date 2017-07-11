@@ -1,1 +1,4 @@
-include"stdio.h"void main(){printf("Hello world");}
+#include<stdio.h>
+void main(){
+printf("How are you");
+}

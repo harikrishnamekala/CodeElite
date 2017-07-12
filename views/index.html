@@ -75,7 +75,9 @@
 <!-- A container to place the Code Editor-->
 <div id="some" style="width:1200px;height:600px;border:1px solid grey;padding:auto;margin:auto;display:block">
 <form action="/executecode" method="POST" id="form1">
-<textarea type="text" name="scode" id="textfield" value="{{.Code}}" rows="25" cols="131"></textarea>
+<textarea type="text" name="scode" id="textfield" rows="25" cols="131">
+  {{.Code}}
+</textarea>
 <br>
 <br>
 <textarea type="text" name="scode_input" id="textfield_two"  rows="4" cols="20"></textarea>
@@ -118,7 +120,7 @@
         var data = document.getElementById("container2").value;
         //window.editor.getValue();
         var  code_obj = {
-          code : data 
+          code : data
         };
         code_source_json = JSON.stringify(code_obj);
         //document.getElementById('codist').innerHTML = code;

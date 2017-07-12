@@ -118,9 +118,9 @@ func executecode(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	go runner.Runcode(path, randfolder)
+	runner.Runcode(path, randfolder)
 
-	time.Sleep(time.Second * 10)
+	//time.Sleep(time.Second * 10)
 	output, err := ioutil.ReadFile("./controller/vol/" + randfolder + "/data.txt")
 	if err != nil {
 		panic(err)

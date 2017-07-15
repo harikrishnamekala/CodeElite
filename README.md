@@ -18,3 +18,44 @@ So, code-runner should also act as a docker client and request docker daemon to 
 *Issue*: There is a subtlety here because of compiled and dynamic languages. For compiled languages, we can run the compiler in its own container which is always running and have another image that will contain the executable produced by the compiled language and run the executable in its own tiny environment like the "hello-world" example. But interpreted languages like python, ruby and others can't be done because they require the interpreter to be available. This problem is yet to be solved. Perhaps, a separate treatment to compiled and interpreted languages is necessary. But the focus is to get compiled languages(C) running first.
 
 TODO: Still have to choose a light weight REST framework(no need for a full-blown web framework).
+
+
+Ada
+--bash
+--C
+Clojure
+CoffeScript
+--C++
+C#
+D
+Elixir
+Fortan
+F#
+Go
+Groovy
+Haskell
+--Java 7 and 8
+Node Js
+Julia
+Kotlin
+LOLCODE
+Lua
+Obj C
+Ocaml
+Octave
+Pascal
+Perl
+--PHP
+--Python 2
+--Python 3
+R
+Racket
+Ruby
+Rust
+Lisp
+Scala
+Smalltalk
+Swift
+Tcl
+VB.NET
+Whitespace

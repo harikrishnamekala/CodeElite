@@ -11,28 +11,33 @@ import (
 	"os"
 	"os/exec"
 	"time"
-
-	"codeelite.com/controller"
 )
 
 func main() {
+	//Message for Server port
 	fmt.Print("Started Server at 8080")
+	//------------------------------------------------------------------
 	//http.Handle("/", http.FileServer(http.Dir("node_modules")))
 	//router := httprouter.New()
-	http.HandleFunc("/", showIndex)
-	http.HandleFunc("/executecode", executecode)
 	//resourcesRouter()
 	//router.GET("/", showIndex)
 	//router.GET("/", http.FileServer(http.Dir(".")))
 	//router.ServeFiles("./node_modules", http.Dir("./node_modules"))
 	//router.POST("/executecode", executecode)
+	//------------------------------------------------------------------
+
+	//Handler for Routes for the Requests
+	http.HandleFunc("/", showIndex)
+	http.HandleFunc("/executecode", executecode)
+
 	http.ListenAndServe(":8080", nil)
 
 }
 
-/*func FileServe(rw http.ResponseWriter, r *http.Request) {
-	http.FileServer(http.Dir("views"))
-}*/
+/*
+ There is no Inbuild Function to Convert []string to []byte so I had to write
+ my own one
+*/
 const maxInt32 = 1<<(32-1) - 1
 
 func writeLen(b []byte, l int) []byte {
@@ -43,7 +48,6 @@ func writeLen(b []byte, l int) []byte {
 	binary.BigEndian.PutUint32(lb[:], uint32(l))
 	return append(b, lb[:]...)
 }
-
 func readLen(b []byte) ([]byte, int) {
 	if len(b) < 4 {
 		panic("readLen: invalid length")
@@ -64,6 +68,10 @@ func Encode(s []string) []byte {
 	return b
 }
 
+/*
+ To Generate the Random Indexes to Handle Concurrent Requests of Compilations
+*/
+
 const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 func init() {
@@ -83,9 +91,15 @@ type OutCode struct {
 	Output string
 }
 
+/*
+THe Handler Method to Handle the Post of Code
+*/
 func executecode(w http.ResponseWriter, r *http.Request) {
+	//Parse the Received Form in the Request Object
 	r.ParseForm()
+	//Getting Values based on the Form Attributes
 	code_str := r.Form["scode"]
+	//In Order to Write the Code Files
 	code := []byte(code_str[0])
 	input_str := r.Form["scode_input"]
 	input := []byte(input_str[0])

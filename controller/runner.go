@@ -10,29 +10,48 @@ import (
 	"github.com/docker/docker/client"
 	"golang.org/x/net/context"
 )
-
-func Runcode(path string, randfolder string) {
+func SpanContextandCli() (context.Background(), client.NewEnvClient()){
 	ctx := context.Background()
 	cli, err := client.NewEnvClient()
 	if err != nil {
 		panic(err)
 	}
+	return ctx,cli
+}
+func CreateContainerExecEnv() string {
+	ctx,cli := SpanContextandCli()
 
 	resp, err := cli.ContainerCreate(ctx, &container.Config{
-		Image:   "compiler",
-		Tty:     true,
-		Cmd:     []string{"bash"},
-		Volumes: map[string]struct{}{"./vol/": {}},
+		Image:           "compiler",
+		Tty:             true,
+		Cmd:             []string{"bash"},
+		Volumes:         map[string]struct{}{"./vol/": {}},
+		NetworkDisabled: true,
 	}, nil, nil, "")
 	if err != nil {
 		panic(err)
 	}
+	fmt.Print("Created Container : ")
 	fmt.Print(resp.Warnings)
 	fmt.Print(resp.ID + "\n")
 	if err := cli.ContainerStart(ctx, resp.ID, types.ContainerStartOptions{}); err != nil {
 		panic(err)
 	}
 	fmt.Print("Started Container\n")
+
+}
+func StopContainerEnv(id string) {
+
+	ctx,cli := SpanContextandCli()
+	var timout time.Duration = 1
+
+	cli.ContainerStop(ctx, resp.ID, &timout)
+
+	fmt.Println("Stopped the Container " + resp.ID + "\n")
+}
+func Runcode(path string, randfolder string) {
+
+ ctx,cli := SpanContextandCli()
 
 	/*_, runit := exec.Command("/bin/bash", "-c", "docker start "+resp.ID[:12]).Output()
 	if runit != nil {
@@ -213,12 +232,6 @@ func Runcode(path string, randfolder string) {
 	if err != nil {
 		panic(err)
 	}*/
-	var timout time.Duration = 1
-
-	cli.ContainerStop(ctx, resp.ID, &timout)
-
-	fmt.Println("Stopped the Container " + resp.ID + "\n")
-
 	//fmt.Print(st)
 
 	//io.Copy(os.Stdout, out)

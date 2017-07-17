@@ -1,4 +1,4 @@
-package runner
+package controller
 
 import (
 	"fmt"
@@ -9,6 +9,8 @@ import (
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/client"
 	"golang.org/x/net/context"
+	//CodeElite Current package
+	"codeelite.com/controller"
 )
 func SpanContextandCli() (context.Background(), client.NewEnvClient()){
 	ctx := context.Background()
@@ -49,31 +51,35 @@ func StopContainerEnv(id string) {
 
 	fmt.Println("Stopped the Container " + resp.ID + "\n")
 }
+/*
+SOCK STREAM
+The Function Copies the Files in Host which are located in Folder with Docker ID
+ in the Host to Docker Contianer
+*/
+func CopyFileToContainer(filenames []string, folderHostEnv string)  {
+
+	if(len(names) == len(paths)){
+		for iter_index,iter_filename := range filenames{
+			_,copyfile := exec.Command("/bin/bash","-c","docker cp ./hostEnv/"+folderHostEnv+"/"+iter_filename).Output()
+			if copyfile != nil{
+				panic(copyfile)
+			}
+		}else {
+			panic("Names and Paths Execption : runner.go")
+		}
+	}
+
+}
+func CreateOutputErrors(language_id int)  {
+
+}
 func Runcode(path string, randfolder string) {
 
  ctx,cli := SpanContextandCli()
 
-	/*_, runit := exec.Command("/bin/bash", "-c", "docker start "+resp.ID[:12]).Output()
-	if runit != nil {
-		panic(runit)
-	}*/
 
-	_, copyfile := exec.Command("/bin/bash", "-c", "docker cp ./controller/vol/"+randfolder+"/main.c "+resp.ID+":/vol/").Output()
-	if copyfile != nil {
-		panic(copyfile)
-	}
-	fmt.Print("Copied File to container\n")
 
-	_, copyfile2 := exec.Command("/bin/bash", "-c", "docker cp ./controller/vol/"+randfolder+"/compile.sh "+resp.ID+":/vol/").Output()
-	if copyfile2 != nil {
-		panic(copyfile2)
-	}
-	fmt.Print("Copied Shell to container\n")
-	_, copyfile3 := exec.Command("/bin/bash", "-c", "docker cp ./controller/vol/"+randfolder+"/input.txt "+resp.ID+":/vol/").Output()
-	if copyfile3 != nil {
-		panic(copyfile3)
-	}
-	fmt.Print("Copied Input to container\n")
+
 
 	con := types.ExecConfig{
 		Cmd:          []string{"gcc", "/vol/main.c", "-o", "/vol/main", "2>", "/vol/errors.txt"},
@@ -118,7 +124,7 @@ func Runcode(path string, randfolder string) {
 		Cmd:          []string{"touch", "/vol/errors.txt"},
 		Tty:          true,
 		AttachStdout: true,
-		AttachStdin:  false,
+		AttachStdin:  true,
 		Detach:       true,
 	})
 	if err != nil {

@@ -1,2 +1,2 @@
-gcc -lm /vol/main.c -o /vol/main 2> /vol/errors.txt
-timeout 5 ./vol/main < /vol/input.txt  > /vol/data.txt
+gcc -lm /home/main.c -o /home/main 2> /home/errors.txt
+timeout 5 ./home/main < /home/input.txt  > /home/data.txt

@@ -11,6 +11,8 @@ import (
 	"os"
 	"os/exec"
 	"time"
+
+	"codeelite.com/controller"
 )
 
 func main() {
@@ -92,9 +94,12 @@ type OutCode struct {
 }
 
 /*
-THe Handler Method to Handle the Post of Code
+THe Handler Method to Handle the Post of Student's Code
 */
 func executecode(w http.ResponseWriter, r *http.Request) {
+
+	checker.CheckCompilerOrInterpreter()
+	constants.ReturnContantLanguageid()
 	//Parse the Received Form in the Request Object
 	r.ParseForm()
 	//Getting Values based on the Form Attributes

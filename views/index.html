@@ -75,14 +75,35 @@
 <!-- A container to place the Code Editor-->
 <div id="some" style="width:1200px;height:600px;border:1px solid grey;padding:auto;margin:auto;display:block">
 <form action="/executecode" method="POST" id="form1">
+  <label>Select the Programming Langauge</label>
+  <select name="Programming_language">
+    <option value="1">CPP</option>
+    <option value="2">GoLang</option>
+    <option value="3">VisualBasic</option>
+    <option value="4">PHP</option>
+    <option value="5">CSharp</option>
+    <option value="6">Perl</option>
+    <option value="7">Clojure</option>
+    <option value="8">Python</option>
+    <option value="9">GCC</option>
+    <option value="10">Shell</option>
+    <option value="11">NodeJs</option>
+    <option value="12">Ruby</option>
+    <<option value="13">Python3</option>
+  </select>
 <textarea type="text" name="scode" id="textfield" rows="25" cols="131">
   {{.Code}}
 </textarea>
 <br>
 <br>
-<textarea type="text" name="scode_input" id="textfield_two"  rows="4" cols="20"></textarea>
+<textarea type="text" name="scode_input" id="textfield_two"  rows="4" cols="20">
+  {{.Input}}
+</textarea>
+
+
 </form>
-<button type="submit" style="margin-left:350px" class="btn btn-primary btn-lg" form="form1" value="Submit">Submit</button>
+<button type="submit" style="margin-left:350px" class="btn btn-primary btn-lg" form="form1" value="Submit" onclick="">Submit</button>
+<button type="submit" style="margin-left:350px" class="btn btn-primary btn-lg" form="form1" value="Submit" onclick="">RunCode</button>
 </div>
 
 
@@ -94,6 +115,8 @@
 <br>
 <br>
 <br>
+
+<p id="codist" style="display: block;background-color: grey; font-size: 24px">{{.Errors}}</p>
 
 <p id="codist" style="display: block;background-color: grey; font-size: 24px">{{.Output}}</p>
 

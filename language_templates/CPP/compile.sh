@@ -1,2 +1,2 @@
-g++ /vol/main.cpp -o /vol/main 2> /vol/errors.txt
-timeout 5 ./vol/main < /vol/input.txt > /vol/output.txt
+g++ /home/main.cpp -o /home/main 2> /home/errors.txt
+timeout 5 ./home/main < /home/input.txt > /home/output.txt

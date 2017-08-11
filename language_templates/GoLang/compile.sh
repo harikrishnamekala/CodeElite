@@ -1,1 +1,2 @@
-go run /vol/main.go < /vol/input.txt 2> /vol/output.txt
+go run /home/main.go < /home/input.txt 2> /home/errors.txt
+timeout 5 go run /home/main.go < /home/input.txt > /home/output.txt

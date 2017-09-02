@@ -1,28 +1,25 @@
 {
-  "name": "codeelite",
+  "name": "codeelite.com",
   "version": "0.0.1",
-  "description": "Competitive Programming App For VIT",
+  "description": "Cloud Programming Platform",
   "main": "app.js",
   "scripts": {
-    "test": "app.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/harkrishnamekala/CodeElite.git"
   },
   "keywords": [
-    "Programming",
-    "Competitive",
-    "Students"
+    "Programming"
   ],
-  "author": "Abhinav Dayal",
+  "author": "",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/harkrishnamekala/CodeElite/issues"
   },
   "homepage": "https://github.com/harkrishnamekala/CodeElite#readme",
-  "dependencies": {
-    "monaco-editor": "^0.8.3",
-    "mongodb": "^2.2.24"
-  }
+  "dependencies":{
+	"monaco-editor":"^0.10.0"
+	}
 }

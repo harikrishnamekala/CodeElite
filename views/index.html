@@ -73,37 +73,49 @@
   </div>
 </div>
 <!-- A container to place the Code Editor-->
-<div id="some" style="width:1200px;height:600px;border:1px solid grey;padding:auto;margin:auto;display:block">
-<form action="/executecode" method="POST" id="form1">
-  <label>Select the Programming Langauge</label>
-  <select name="Programming_language">
-    <option value="1">CPP</option>
-    <option value="2">GoLang</option>
-    <option value="3">VisualBasic</option>
-    <option value="4">PHP</option>
-    <option value="5">CSharp</option>
-    <option value="6">Perl</option>
-    <option value="7">Clojure</option>
-    <option value="8">Python</option>
-    <option value="9">GCC</option>
-    <option value="10">Shell</option>
-    <option value="11">NodeJs</option>
-    <option value="12">Ruby</option>
-    <<option value="13">Python3</option>
-  </select>
+<div id="container" style="width:1200px;height:600px;border:1px solid grey;padding:auto;margin:auto;display:block">
+
+<div id="submit-form">
+  <form action="/executecode" method="POST" id="form1">
+    <label>Select the Programming Langauge</label>
+    <select name="Programming_language" >
+      <option value="1">CPP</option>
+      <option value="2">GoLang</option>
+      <option value="3">VisualBasic</option>
+      <option value="4">PHP</option>
+      <option value="5">CSharp</option>
+      <option value="6">Perl</option>
+      <option value="7">Clojure</option>
+      <option selected="selected" value="8">Python</option>
+      <option value="9">GCC</option>
+      <option value="10">Shell</option>
+      <option value="11">NodeJs</option>
+      <option value="12">Ruby</option>
+      <<option value="13">Python3</option>
+    </select>
+
+    <textarea type="text" name="scode_input" id="textfield_two"  rows="4" cols="20">
+      {{.Input}}
+    </textarea>
+
+    <button type="button" style="margin-left:350px" class="btn btn-primary btn-lg" form="form1" value="Submit" onclick="sendCode()">RunCode</button>
+    </form>
+</div>
+<p id="codist" style="display: block;background-color: grey; font-size: 24px">{{.Errors}}</p>
+
+<p id="codist" style="display: block;background-color: grey; font-size: 24px">{{.Output}}</p>
+
+<!---
 <textarea type="text" name="scode" id="textfield" rows="25" cols="131">
   {{.Code}}
 </textarea>
 <br>
 <br>
-<textarea type="text" name="scode_input" id="textfield_two"  rows="4" cols="20">
-  {{.Input}}
-</textarea>
 
 
-</form>
+
 <button type="submit" style="margin-left:350px" class="btn btn-primary btn-lg" form="form1" value="Submit" onclick="">Submit</button>
-<button type="submit" style="margin-left:350px" class="btn btn-primary btn-lg" form="form1" value="Submit" onclick="">RunCode</button>
+
 </div>
 
 
@@ -116,9 +128,7 @@
 <br>
 <br>
 
-<p id="codist" style="display: block;background-color: grey; font-size: 24px">{{.Errors}}</p>
-
-<p id="codist" style="display: block;background-color: grey; font-size: 24px">{{.Output}}</p>
+--->
 
 
 <!-- Creating Object for monaco-editor and embbeding it to the above container-->
@@ -128,37 +138,38 @@
 <script src="../node_modules/monaco-editor/min/vs/editor/editor.main.js"></script>
 
 <script>
-	/*var editor = monaco.editor.create(document.getElementById('container'), {
+	var editor = monaco.editor.create(document.getElementById('container'), {
 		value: [
-			'function x() {',
-			'\tconsole.log("Hello world!");',
-			'}'
+			'print \"Hello\"',
 		].join('\n'),
-		language: 'C'
-	});*/
-    //monaco.editr.BuiltinTheme("vs-dark");
-    //monaco.editor.setModelLanguage(editor.getModel(), "Python");
+		language: 'java',
+    lineNumbers: true,
+    roundedSelection: false,
+	scrollBeyondLastLine: false,
+	readOnly: false,
+	theme: "vs-dark",
+	});
 
-   /* function sendCode(){
-        var data = document.getElementById("container2").value;
+   function sendCode(){
+        var data = document.getElementById("container").value;
         //window.editor.getValue();
         var  code_obj = {
           code : data
         };
         code_source_json = JSON.stringify(code_obj);
+        
         //document.getElementById('codist').innerHTML = code;
-        var req = new XMLHttpRequest();
+        /*var req = new XMLHttpRequest();
         req.onreadystatechange = function(){
             if(this.readyState == 4 && this.status == 200){
                 document.getElementById('codist').innerHTML = this.responseText;
             }
         };
         req.open("POST","/executecode", true );
-        req.send(code_source_json);
+        req.send(code_source_json);*/
         return 1;
 
     }
-*/
 </script>
 
     </body>

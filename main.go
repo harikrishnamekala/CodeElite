@@ -27,7 +27,9 @@ func main() {
 	//------------------------------------------------------------------
 
 	//Handler for Routes for the Requests
+
 	http.HandleFunc("/", showIndex)
+	http.Handle("/node_modules/", http.StripPrefix("/node_modules/", http.FileServer(http.Dir("node_modules"))))
 
 	http.HandleFunc("/executecode", executecode)
 

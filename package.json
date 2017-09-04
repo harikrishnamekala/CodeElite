@@ -19,7 +19,7 @@
     "url": "https://github.com/harkrishnamekala/CodeElite/issues"
   },
   "homepage": "https://github.com/harkrishnamekala/CodeElite#readme",
-  "dependencies":{
-	"monaco-editor":"^0.10.0"
-	}
+  "dependencies": {
+    "monaco-editor": "^0.10.0"
+  }
 }

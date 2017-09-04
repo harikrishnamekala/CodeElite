@@ -102,6 +102,7 @@ func executecode(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
+
 	language_id -= 1
 	//In Order to Write the Code Files
 	//code := []byte(code_str[0])
@@ -114,7 +115,7 @@ func executecode(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(language_id)
 
 	templateObjVal := controller.Runcode(language_id, code, input)
-
+	
 	problemtem, err := template.ParseFiles("./views/index.html")
 	if err != nil {
 		panic(err)

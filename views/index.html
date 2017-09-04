@@ -93,6 +93,9 @@
       <option value="12">Ruby</option>
       <<option value="13">Python3</option>
     </select>
+    <textarea type="text" name="scode" id="textfield" rows="25" cols="131">
+  {{.Code}}
+</textarea>
 
     <textarea type="text" name="scode_input" id="textfield_two"  rows="4" cols="20">
       {{.Input}}
@@ -142,7 +145,7 @@
 		value: [
 			'print \"Hello\"',
 		].join('\n'),
-		language: 'java',
+		language: 'python',
     lineNumbers: true,
     roundedSelection: false,
 	scrollBeyondLastLine: false,
@@ -157,6 +160,8 @@
           code : data
         };
         code_source_json = JSON.stringify(code_obj);
+        document.getElementById("textfield").innerHTML = monaco.editor.getValue();
+        var sub = document.getElementById("form1").submit();
         
         //document.getElementById('codist').innerHTML = code;
         /*var req = new XMLHttpRequest();

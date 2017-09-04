@@ -21,6 +21,8 @@ TODO: Still have to choose a light weight REST framework(no need for a full-blow
 
 https://lebkowski.name/docker-volumes/
 
+sudo usermod -a -G docker $USER
+
 Ada
 --bash
 --C

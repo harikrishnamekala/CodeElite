@@ -28,8 +28,8 @@ func main() {
 
 	//Handler for Routes for the Requests
 
-	http.HandleFunc("/", showIndex)
-	http.Handle("/node_modules/", http.StripPrefix("/node_modules/", http.FileServer(http.Dir("node_modules"))))
+	http.HandleFunc("/", http.NotFound)
+	//http.Handle("/node_modules/", http.StripPrefix("/node_modules/", http.FileServer(http.Dir("node_modules"))))
 
 	http.HandleFunc("/executecode", executecode)
 
@@ -93,6 +93,11 @@ func RandStringBytes(n int) string {
 THe Handler Method to Handle the Post of Student's Code
 */
 func executecode(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method != "POST" {
+		fmt.Fprintln(w, "Method Not Allowed")
+		return
+	}
 	//Parse the Received Form in the Request Object
 	r.ParseForm()
 	//Getting Values based on the Form Attributes
@@ -115,7 +120,7 @@ func executecode(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(language_id)
 
 	templateObjVal := controller.Runcode(language_id, code, input)
-	
+
 	problemtem, err := template.ParseFiles("./views/index.html")
 	if err != nil {
 		panic(err)

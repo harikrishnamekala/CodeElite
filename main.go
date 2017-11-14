@@ -7,8 +7,9 @@ import (
 	"html/template"
 	"math/rand"
 	"net/http"
-	"strconv"
 	"time"
+
+	"encoding/json"
 
 	"codeelite.com/controller"
 )
@@ -81,6 +82,10 @@ func init() {
 	rand.Seed(time.Now().UnixNano())
 }
 
+/*
+
+To Generate Random Strings of the given size
+*/
 func RandStringBytes(n int) string {
 	b := make([]byte, n)
 	for i := range b {
@@ -98,39 +103,69 @@ func executecode(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "Method Not Allowed")
 		return
 	}
+
 	//Parse the Received Form in the Request Object
 	r.ParseForm()
 	//Getting Values based on the Form Attributes
-	code_str := r.Form["scode"]
-	language_id_arr := r.Form["Programming_language"]
-	language_id, err := strconv.Atoi(language_id_arr[0])
-	if err != nil {
+
+	stringfiedjsondata := r.Form["DATA"][0]
+
+	fmt.Println(stringfiedjsondata)
+
+	fmt.Println(" Raw Data is printed!!!")
+
+	type inputs struct {
+		inputid   string
+		inputdata string
+	}
+
+	type data struct {
+		problemid        string
+		sourcetype       string
+		sourcecode       string
+		custominputcheck bool
+		custominputdata  []inputs
+	}
+
+	var dt data
+
+	if err := json.Unmarshal([]byte(stringfiedjsondata), &dt); err != nil {
 		panic(err)
 	}
 
-	language_id -= 1
-	//In Order to Write the Code Files
-	//code := []byte(code_str[0])
-	input_str := r.Form["scode_input"]
-	code := code_str[0]
-	input := input_str[0]
+	fmt.Fprintln(w, dt)
 
-	fmt.Println(input)
-	fmt.Println(code_str)
-	fmt.Println(language_id)
+	/*
+		sourcecode := r.Form["scode"]
+		language_id_arr := r.Form["Programming_language"]
+		language_id, err := strconv.Atoi(language_id_arr[0])
+		if err != nil {
+			panic(err)
+		}
 
-	templateObjVal := controller.Runcode(language_id, code, input)
+		language_id -= 1
+		//In Order to Write the Code Files
+		//code := []byte(sourcecode[0])
+		input_str := r.Form["scode_input"]
+		code := sourcecode[0]
+		input := input_str[0]
 
-	problemtem, err := template.ParseFiles("./views/index.html")
-	if err != nil {
-		panic(err)
-	}
+		fmt.Println(input)
+		fmt.Println(sourcecode)
+		fmt.Println(language_id)
 
-	err = problemtem.Execute(w, templateObjVal)
-	if err != nil {
-		panic(err)
+		templateObjVal := controller.Runcode(language_id, code, input)
 
-	}
+		problemtem, err := template.ParseFiles("./views/index.html")
+		if err != nil {
+			panic(err)
+		}
+
+		err = problemtem.Execute(w, templateObjVal)
+		if err != nil {
+			panic(err)
+
+		}*/
 }
 
 /*-------------------------------------------------------------
@@ -181,7 +216,7 @@ func executecode(w http.ResponseWriter, r *http.Request) {
   		panic(err)
   	}
   	templ_output_obj := OutCode{
-  		Code:   code_str[0],
+  		Code:   sourcecode[0],
   		Output: templ_output,
   	}
   	err = templ.Execute(w, templ_output_obj)

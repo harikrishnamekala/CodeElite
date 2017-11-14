@@ -1,0 +1,20 @@
+//Request
+
+
+{
+    "problemid" : "print-input-value",
+    "sourcetype" : "python",
+    "sourcecode" : "x = input() print(\"x\")",
+    "custominputcheck" : true,
+    "custominputdata" : 
+    [
+        {
+            "inputid" : 1,
+            "inputdata" : "somecustominputdata"
+        },
+        {
+            "inputid" : 2,
+            "inputdata" :"somecustominputdata2"
+        }
+    ]
+}

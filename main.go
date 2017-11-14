@@ -112,28 +112,30 @@ func executecode(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println(stringfiedjsondata)
 
-	fmt.Println(" Raw Data is printed!!!")
+	fmt.Println("Raw Data is printed!!!")
 
-	type inputs struct {
-		inputid   string
-		inputdata string
+	type Inputs struct {
+		Inputid   int
+		Inputdata string
 	}
 
-	type data struct {
-		problemid        string
-		sourcetype       string
-		sourcecode       string
-		custominputcheck bool
-		custominputdata  []inputs
+	type ExecutionRequest struct {
+		Problemid        string
+		Sourcetype       string
+		Sourcecode       string
+		Custominputcheck bool
+		Custominputdata  []Inputs
 	}
 
-	var dt data
+	var dt ExecutionRequest
 
 	if err := json.Unmarshal([]byte(stringfiedjsondata), &dt); err != nil {
 		panic(err)
 	}
 
 	fmt.Fprintln(w, dt)
+
+	fmt.Println(dt.Sourcecode)
 
 	/*
 		sourcecode := r.Form["scode"]

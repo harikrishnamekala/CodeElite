@@ -137,6 +137,10 @@ func executecode(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println(dt.Sourcecode)
 
+	for _, Obj := range dt.Custominputdata {
+		fmt.Println(Obj)
+	}
+
 	/*
 		sourcecode := r.Form["scode"]
 		language_id_arr := r.Form["Programming_language"]

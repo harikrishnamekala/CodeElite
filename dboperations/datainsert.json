@@ -1,0 +1,50 @@
+[
+    {
+        "problemid": "print-input-value",
+        "problemstatement": "Print What is Given Input",
+        "testcasesinput": [
+            {
+                "inputid": 1,
+                "inputdata": "Hello World"
+            },
+            {
+                "inputid": 2,
+                "inputdata": "How are you"
+            }
+        ],
+        "testcasesoutput": [
+            {
+                "outputid": 1,
+                "outputdata": "Hello World"
+            },
+            {
+                "outputid": 2,
+                "outputdata": "How are you"
+            }
+        ]
+    },
+    {
+        "problemid": "print-upto-given-value",
+        "problemstatement": "Print The NUmbers upto the Given Value",
+        "testcasesinput": [
+            {
+                "inputid": 1,
+                "inputdata": 5
+            },
+            {
+                "inputid": 2,
+                "inputdata": 10
+            }
+        ],
+        "testcasesoutput": [
+            {
+                "outputid": 1,
+                "outputdata": "1 2 3 4 5"
+            },
+            {
+                "outputid": 2,
+                "outputdata": "1 2 3 4 5 6 7 8 9 10"
+            }
+        ]
+    }
+]

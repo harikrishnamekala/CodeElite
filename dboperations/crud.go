@@ -1,12 +1,11 @@
 package dboperations
 
 import (
-	"fmt"
-
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
 
+//TODO : Set Env OS Env Variables here
 const (
 	//DATABASE Constant Coz Database name is Should be specified at the Start of App
 	DATABASE = "testdatabase"
@@ -24,7 +23,7 @@ type ProblemID bson.M
 //DB interface is the print that connects the Struct DBconn and it's methods to make it a member
 type DB interface {
 	Connect() error
-	CloseConnection(Connection *mgo.Session)
+	CloseConnection()
 	SelectCollection(Collection string)
 	Storeproblemdata(ID ProblemID) error
 	GetstoredproblemData() Problem
@@ -71,8 +70,8 @@ func (P *DBconn) Connect() error {
 }
 
 //CloseConnection Closes the Established MongoDB Connection
-func (P *DBconn) CloseConnection(Connection *mgo.Session) {
-	Connection.Close()
+func (P *DBconn) CloseConnection() {
+	P.Conn.Close()
 }
 
 //SelectCollection selects the Collection that is to be extracted
@@ -106,17 +105,18 @@ func (P *DBconn) GetstoredproblemData() Problem {
 	return P.ProblemData
 }
 
-//Driver : This is just a regualr Driver Function to show how our interface binding works in Golang
-func Driver(Argument DB) {
-	if err := Argument.Connect(); err != nil {
+//FetchTestCases : This is just a regualr Driver Function to show how our interface binding works in Golang
+func FetchTestCases(Database DBconn, Collection string, ID ProblemID) ([]Input, []Output) {
+	if err := Database.Connect(); err != nil {
 		panic(err)
 	}
-	Argument.SelectCollection("problemset")
-	ID := ProblemID{"problemid": "print-input-value"}
-	Argument.Storeproblemdata(ID)
-	problem := Argument.GetstoredproblemData()
-	fmt.Println(problem)
-	Argument.CloseConnection(Argument.GetSession())
+	defer Database.CloseConnection()
+	Database.SelectCollection(Collection)
+	//ID := ProblemID{"problemid": "print-input-value"}
+	Database.Storeproblemdata(ID)
+	problem := Database.GetstoredproblemData()
+
+	return problem.TestcasesInput, problem.TestcasesOutput
 }
 
 /*

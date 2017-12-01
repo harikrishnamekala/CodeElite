@@ -114,9 +114,9 @@ func FetchTestCases(Database DBconn, Collection string, ID ProblemID) ([]Input, 
 	Database.SelectCollection(Collection)
 	//ID := ProblemID{"problemid": "print-input-value"}
 	Database.Storeproblemdata(ID)
-	problem := Database.GetstoredproblemData()
+	ProblemT := Database.GetstoredproblemData()
 
-	return problem.TestcasesInput, problem.TestcasesOutput
+	return ProblemT.TestcasesInput, ProblemT.TestcasesOutput
 }
 
 /*

@@ -32,7 +32,7 @@ func main() {
 	http.HandleFunc("/", http.NotFound)
 	//http.Handle("/node_modules/", http.StripPrefix("/node_modules/", http.FileServer(http.Dir("node_modules"))))
 
-	http.HandleFunc("/executecode", executecode)
+	http.HandleFunc("/execute", executecode)
 
 	http.ListenAndServe(":8080", nil)
 
@@ -100,7 +100,7 @@ THe Handler Method to Handle the Post of Student's Code
 func executecode(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method != "POST" {
-		fmt.Fprintln(w, "Method Not Allowed")
+		fmt.Fprintln(w, http.StatusMethodNotAllowed)
 		return
 	}
 

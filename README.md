@@ -23,6 +23,8 @@ https://lebkowski.name/docker-volumes/
 
 sudo usermod -a -G docker $USER
 
+#Need to Resume the Dev
+
 Ada
 --bash
 --C

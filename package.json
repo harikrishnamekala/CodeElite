@@ -1,5 +1,5 @@
 {
-  "name": "codeelite.com",
+  "name": "codeelite",
   "version": "0.0.1",
   "description": "Cloud Programming Platform",
   "main": "app.js",
@@ -11,7 +11,7 @@
     "url": "git+https://github.com/harkrishnamekala/CodeElite.git"
   },
   "keywords": [
-    "Programming"
+    "Programming", "Code Engine"
   ],
   "author": "",
   "license": "MIT",

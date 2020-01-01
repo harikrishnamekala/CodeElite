@@ -1,5 +1,6 @@
-#CODEELITE
-The code-runner is a server which gets code to be run from the UI server and runs the code. Its operation is to compile, execute and return the output of the code to the requesting UI server.
+#Runtime
+
+The code-runner is a server which gets code to be run from the web request and runs the code. Its operation is to compile, execute and return the output of the code to the requesting UI/* client.
 
 Because the code is unsafe(written by some-random-guy-on-the-internet), it should run the code securely. Ideally, each submission of code should be executed isolated from other processes, restricted from making any network calls and accessing the file system out of its scope. These restrictions are the same for all submissions.
 
@@ -24,6 +25,22 @@ https://lebkowski.name/docker-volumes/
 sudo usermod -a -G docker $USER
 
 #Need to Resume the Dev
+
+## Initial Set of Support for Languages ##
+
+Python 2 & 3
+C++ and C
+JavaScript (Node)
+Java
+Bash
+PHP
+Go
+
+## 2nd Batch Support ##
+Rust
+Kotlin
+Swift
+
 
 Ada
 --bash
@@ -61,6 +78,3 @@ Lisp
 Scala
 Smalltalk
 Swift
-Tcl
-VB.NET
-Whitespace

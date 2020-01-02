@@ -2,15 +2,9 @@ package main
 
 //Importing Standard Packages
 import (
-	"encoding/binary"
 	"fmt"
-	"html/template"
-	"math/rand"
-	"net/http"
-	"strconv"
-	"time"
 
-	"codeelite.com/controller"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -28,105 +22,115 @@ func main() {
 
 	//Handler for Routes for the Requests
 
-	http.HandleFunc("/", showIndex)
-	http.Handle("/node_modules/", http.StripPrefix("/node_modules/", http.FileServer(http.Dir("node_modules"))))
+	// http.HandleFunc("/", showIndex)
+	// http.Handle("/node_modules/", http.StripPrefix("/node_modules/", http.FileServer(http.Dir("node_modules"))))
 
-	http.HandleFunc("/executecode", executecode)
+	// http.HandleFunc("/executecode", executecode)
 
-	http.ListenAndServe(":8080", nil)
+	// http.ListenAndServe(":8080", nil)
 
+	r := gin.Default()
+	r.GET("/ping", Pong)
+	r.Run()
+
+}
+
+func Pong(c *gin.Context) {
+	c.JSON(200, gin.H{
+		"message": "pong",
+	})
 }
 
 /*
  There is no Inbuild Function to Convert []string to []byte so I had to write
  my own one
 */
-const maxInt32 = 1<<(32-1) - 1
+// const maxInt32 = 1<<(32-1) - 1
 
-func writeLen(b []byte, l int) []byte {
-	if 0 > l || l > maxInt32 {
-		panic("writeLen: invalid length")
-	}
-	var lb [4]byte
-	binary.BigEndian.PutUint32(lb[:], uint32(l))
-	return append(b, lb[:]...)
-}
-func readLen(b []byte) ([]byte, int) {
-	if len(b) < 4 {
-		panic("readLen: invalid length")
-	}
-	l := binary.BigEndian.Uint32(b)
-	if l > maxInt32 {
-		panic("readLen: invalid length")
-	}
-	return b[4:], int(l)
-}
-func Encode(s []string) []byte {
-	var b []byte
-	b = writeLen(b, len(s))
-	for _, ss := range s {
-		b = writeLen(b, len(ss))
-		b = append(b, ss...)
-	}
-	return b
-}
+// func writeLen(b []byte, l int) []byte {
+// 	if 0 > l || l > maxInt32 {
+// 		panic("writeLen: invalid length")
+// 	}
+// 	var lb [4]byte
+// 	binary.BigEndian.PutUint32(lb[:], uint32(l))
+// 	return append(b, lb[:]...)
+// }
+// func readLen(b []byte) ([]byte, int) {
+// 	if len(b) < 4 {
+// 		panic("readLen: invalid length")
+// 	}
+// 	l := binary.BigEndian.Uint32(b)
+// 	if l > maxInt32 {
+// 		panic("readLen: invalid length")
+// 	}
+// 	return b[4:], int(l)
+// }
+// func Encode(s []string) []byte {
+// 	var b []byte
+// 	b = writeLen(b, len(s))
+// 	for _, ss := range s {
+// 		b = writeLen(b, len(ss))
+// 		b = append(b, ss...)
+// 	}
+// 	return b
+// }
 
 /*
  To Generate the Random Indexes to Handle Concurrent Requests of Compilations
 */
 
-const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+// const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-func init() {
-	rand.Seed(time.Now().UnixNano())
-}
+// func init() {
+// 	rand.Seed(time.Now().UnixNano())
+// }
 
-func RandStringBytes(n int) string {
-	b := make([]byte, n)
-	for i := range b {
-		b[i] = letterBytes[rand.Intn(len(letterBytes))]
-	}
-	return string(b)
-}
+// func RandStringBytes(n int) string {
+// 	b := make([]byte, n)
+// 	for i := range b {
+// 		b[i] = letterBytes[rand.Intn(len(letterBytes))]
+// 	}
+// 	return string(b)
+// }
 
-/*
-THe Handler Method to Handle the Post of Student's Code
-*/
-func executecode(w http.ResponseWriter, r *http.Request) {
-	//Parse the Received Form in the Request Object
-	r.ParseForm()
-	//Getting Values based on the Form Attributes
-	code_str := r.Form["scode"]
-	language_id_arr := r.Form["Programming_language"]
-	language_id, err := strconv.Atoi(language_id_arr[0])
-	if err != nil {
-		panic(err)
-	}
+// /*
+// THe Handler Method to Handle the Post of Student's Code
+// */
+// func executecode(w http.ResponseWriter, r *http.Request) {
+// 	//Parse the Received Form in the Request Object
+// 	r.ParseForm()
+// 	//Getting Values based on the Form Attributes
+// 	code_str := r.Form["scode"]
+// 	language_id_arr := r.Form["Programming_language"]
+// 	language_id, err := strconv.Atoi(language_id_arr[0])
+// 	if err != nil {
+// 		panic(err)
+// 	}
 
-	language_id -= 1
-	//In Order to Write the Code Files
-	//code := []byte(code_str[0])
-	input_str := r.Form["scode_input"]
-	code := code_str[0]
-	input := input_str[0]
+// 	language_id -= 1
+// 	//In Order to Write the Code Files
+// 	//code := []byte(code_str[0])
+// 	input_str := r.Form["scode_input"]
+// 	code := code_str[0]
+// 	input := input_str[0]
 
-	fmt.Println(input)
-	fmt.Println(code_str)
-	fmt.Println(language_id)
+// 	fmt.Println(input)
+// 	fmt.Println(code_str)
+// 	fmt.Println(language_id)
 
-	templateObjVal := controller.Runcode(language_id, code, input)
+// 	templateObjVal := controller.Runcode(language_id, code, input)
 
-	problemtem, err := template.ParseFiles("./views/index.html")
-	if err != nil {
-		panic(err)
-	}
+// 	problemtem, err := template.ParseFiles("./views/index.html")
+// 	if err != nil {
+// 		panic(err)
+// 	}
 
-	err = problemtem.Execute(w, templateObjVal)
-	if err != nil {
-		panic(err)
+// 	err = problemtem.Execute(w, templateObjVal)
+// 	if err != nil {
+// 		panic(err)
 
-	}
-}
+// 	}
+// }
 
 /*-------------------------------------------------------------
   	randfolder := RandStringBytes(12)
@@ -184,24 +188,24 @@ func executecode(w http.ResponseWriter, r *http.Request) {
 
 */
 
-func showIndex(w http.ResponseWriter, r *http.Request) {
+// func showIndex(w http.ResponseWriter, r *http.Request) {
 
-	templ, err := template.ParseFiles("views/index.html")
-	//static_html, err := ioutil.ReadFile("views/index.html")
+// 	templ, err := template.ParseFiles("views/index.html")
+// 	//static_html, err := ioutil.ReadFile("views/index.html")
 
-	if err != nil {
-		panic(err)
-	}
+// 	if err != nil {
+// 		panic(err)
+// 	}
 
-	dataObj := new(controller.OutputTeplStr)
+// 	dataObj := new(controller.OutputTeplStr)
 
-	err = templ.Execute(w, &dataObj)
-	if err != nil {
-		panic(err)
-	}
-	//fmt.Fprintf(w, "%s", static_html)
+// 	err = templ.Execute(w, &dataObj)
+// 	if err != nil {
+// 		panic(err)
+// 	}
+// 	//fmt.Fprintf(w, "%s", static_html)
 
-}
+// }
 
 /*func resourcesRouter() {
 	searchDir := "./node_modules"

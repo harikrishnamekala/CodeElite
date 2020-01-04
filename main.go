@@ -39,6 +39,9 @@ func main() {
 * Just gives a response with Pong
  */
 func Pong(c *gin.Context) {
+
+	//Added Comment
+
 	c.JSON(200, gin.H{
 		"message": "pong",
 	})

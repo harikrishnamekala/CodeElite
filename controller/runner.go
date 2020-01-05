@@ -3,6 +3,7 @@ package controller
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os/exec"
 	"time"
 
@@ -49,6 +50,7 @@ func CreateContainerExecEnv() string {
 		NetworkDisabled: true,
 	}, nil, nil, "")
 	if err != nil {
+		log.Fatal("Error Occured While Creating a Container.")
 		panic(err)
 	}
 	fmt.Print("Created Container : ")
